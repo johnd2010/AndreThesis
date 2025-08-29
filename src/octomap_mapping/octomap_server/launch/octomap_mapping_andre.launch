@@ -1,0 +1,26 @@
+<launch>
+	<arg name="ns" default="uav1"/>
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server_$(arg ns)">
+		<param name="resolution" value="0.5"/>
+		
+		<param name="frame_id" type="string" value="$(arg ns)/world_origin"/>
+		<param name="latch" value="true" />
+
+		<param name="sensor_model/max_range" value="20.0"/>
+		<param name="sensor_model/min_range" value="0.7"/>
+
+		<param name="pointcloud_max_x" value="56.0"/>
+		<param name="pointcloud_max_y" value="56.0"/>
+		<param name="pointcloud_max_z" value="3.0"/>
+		
+		<param name="pointcloud_min_x" value="32.0"/>
+		<param name="pointcloud_min_y" value="32.0"/>
+		<param name="pointcloud_min_z" value="0.0"/>
+
+				
+		<!-- <remap from="cloud_in" to="$(arg ns)/pcl_filter_ouster/points_processed" /> -->
+		<remap from="cloud_in" to="$(arg ns)/livox/lidar" />
+		<remap from="octomap_binary" to="$(arg ns)/octomap_binary" />
+		<remap from="octomap_full" to="$(arg ns)/octomap_full" />
+	</node>
+</launch>

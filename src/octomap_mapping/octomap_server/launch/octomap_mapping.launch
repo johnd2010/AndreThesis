@@ -1,0 +1,51 @@
+<launch>
+	<arg name="ns" default="uav1"/>
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server_$(arg ns)" output="screen">
+
+	<!-- <remap from="cloud_in" to="$(arg ns)/pcl_filter_ouster/points_processed" /> -->
+	<remap from="cloud_in" to="/$(arg ns)/livox/lidar" />
+	<remap from="octomap_binary" to="/$(arg ns)/octomap_binary" />
+	<remap from="octomap_full" to="/$(arg ns)/octomap_full" />
+
+    <!-- Frames -->
+    <param name="frame_id" value="$(arg ns)/world_origin"/>
+    <param name="base_frame_id" value="$(arg ns)/fcu"/>
+
+    <param name="height_map" value="false"/>
+    <param name="colored_map" value="false"/>
+
+    <!-- Pointcloud bounding box -->
+	<param name="pointcloud_max_x" value="56.0"/>
+	<param name="pointcloud_max_y" value="56.0"/>
+	<param name="pointcloud_max_z" value="3.0"/>
+	
+	<param name="pointcloud_min_x" value="32.0"/>
+	<param name="pointcloud_min_y" value="32.0"/>
+	<param name="pointcloud_min_z" value="0.0"/>
+
+    <!-- Occupancy limits -->
+    <param name="occupancy_min_z" value="0.0"/>
+    <param name="occupancy_max_z" value="3.0"/>
+
+
+    <!-- Filters -->
+    <param name="filter_speckles" value="false"/>
+    <param name="filter_ground" value="false"/>
+
+    <!-- Sensor model -->
+    <param name="sensor_model/max_range" value="20.0"/>
+    <param name="sensor_model/min_range" value="1.0"/>
+    <param name="sensor_model/hit" value="0.7"/>
+    <param name="sensor_model/miss" value="0.4"/>
+    <param name="sensor_model/min" value="0.12"/>
+    <param name="sensor_model/max" value="0.97"/>
+
+    <!-- Map resolution -->
+    <param name="resolution" value="0.4"/>
+
+    <!-- Output/compression -->
+    <param name="compress_map" value="false"/>
+    <param name="incremental_2D_projection" value="false"/>
+
+  </node>
+</launch>
